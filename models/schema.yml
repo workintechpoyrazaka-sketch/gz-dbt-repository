@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: raw
+    database: fast-archive-478610-v8
+    schema: gz_raw_data
+    tables:
+      - name: sales
+        idetifier: raw_gz_sales
+      - name: product
+        identifier: raw_gz_products
+      - name: ship
+        identidier: raw_gz_ship
