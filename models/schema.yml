@@ -4,10 +4,54 @@ sources:
   - name: raw
     database: fast-archive-478610-v8
     schema: gz_raw_data
+    description: Raw data from Greenweez e-commerce platform
+    
     tables:
       - name: sales
-        idetifier: raw_gz_sales
+        identifier: raw_gz_sales
+        description: Sales transactions - one row per product per order
+        loaded_at_field: "CAST(date_date AS TIMESTAMP)"
+        freshness:
+          warn_after: {count: 90, period: day}
+        columns:
+          - name: date_date
+            description: Date of purchase
+          - name: orders_id
+            description: Unique order identifier
+          - name: pdt_id
+            description: Product identifier
+          - name: revenue
+            description: Revenue generated from this line item
+          - name: quantity
+            description: Number of units purchased
+        tests:
+          - unique:
+              column_name: "CONCAT(orders_id, '-', pdt_id)"
+
       - name: product
-        identifier: raw_gz_products
+        identifier: raw_gz_product
+        description: Product catalog with pricing information
+        columns:
+          - name: products_id
+            description: Unique product identifier
+            tests:
+              - unique
+              - not_null
+          - name: purchse_price
+            description: Purchase price (cost) of the product
+
       - name: ship
-        identidier: raw_gz_ship
+        identifier: raw_gz_ship
+        description: Shipping information - one row per order
+        columns:
+          - name: orders_id
+            description: Unique order identifier
+            tests:
+              - unique
+              - not_null
+          - name: shipping_fee
+            description: Shipping fee charged to customer
+          - name: logCost
+            description: Logistics cost
+          - name: ship_cost
+            description: Shipping cost
