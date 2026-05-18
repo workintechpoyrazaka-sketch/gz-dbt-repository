@@ -1,5 +1,3 @@
-version: 2
-
 models:
   - name: stg_cc_parcel
     description: "Staging model — renames raw_cc_parcel columns to clean snake_case."
