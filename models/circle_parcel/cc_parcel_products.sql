@@ -3,8 +3,7 @@
         materialized = 'table',
         partition_by = {
             "field": "date_purchase",
-            "data_type": "date",
-            "granularity": "month"
+            "data_type": "date"
         }
     )
 }}
