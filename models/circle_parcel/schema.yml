@@ -1,0 +1,36 @@
+version: 2
+
+sources:
+  - name: raw_data_circle
+    tables:
+      - name: raw_cc_parcel
+      - name: raw_cc_parcel_product
+
+models:
+  - name: cc_parcel
+    description: "Enriched parcel model with parsed dates, status, time metrics, delay flag, and product aggregates."
+    columns:
+      - name: parcel_id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['Cancelled', 'In Progress', 'In Transit', 'Delivered']
+      - name: delay
+        tests:
+          - accepted_values:
+              values: [0, 1]
+              quote: false
+
+  - name: cc_parcel_products
+    description: "Product-level model with parcel enrichment. Partitioned by date_purchase."
+    columns:
+      - name: parcel_id
+        tests:
+          - not_null
+      - name: model_name
+        tests:
+          - not_null

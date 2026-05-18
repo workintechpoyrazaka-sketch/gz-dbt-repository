@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: stg_cc_parcel
+    description: "Staging model — renames raw_cc_parcel columns to clean snake_case."
+    columns:
+      - name: parcel_id
+        description: "Primary key"
+        tests:
+          - unique
+          - not_null
+
+  - name: stg_cc_parcel_products
+    description: "Staging model — renames raw_cc_parcel_product columns to clean snake_case."
+    columns:
+      - name: parcel_id
+        description: "Foreign key to parcel"
+        tests:
+          - not_null
